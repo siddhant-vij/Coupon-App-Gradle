@@ -1,0 +1,39 @@
+allprojects { // Try with subprojects
+  task printProjectName {
+    /*
+      ------------> gradle :web:pPN
+
+      > Task :web:printProjectName
+      web
+
+      
+      
+      ------------> gradle :services:pPN
+
+      > Task :services:printProjectName
+      services
+
+      
+      
+      ------------> gradle pPN
+
+      > Task :printProjectName
+      couponapp
+
+      > Task :data:printProjectName
+      data
+
+      > Task :integration:printProjectName
+      integration
+
+      > Task :services:printProjectName
+      services
+
+      > Task :web:printProjectName
+      web
+    */
+    doLast {
+      println project.name
+    }
+  }
+}
