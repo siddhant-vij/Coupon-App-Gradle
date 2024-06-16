@@ -1,39 +1,44 @@
-allprojects { // Try with subprojects
-  task printProjectName {
-    /*
-      ------------> gradle :web:pPN
+// Common build.gradle for all sub-projects
+subprojects { 
+  apply plugin: 'application'
+  version = '1.0.0'
+  group = 'com.couponapp'
 
-      > Task :web:printProjectName
-      web
+  repositories {
+    mavenCentral()
+  }
 
-      
-      
-      ------------> gradle :services:pPN
+  dependencies {
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  }
 
-      > Task :services:printProjectName
-      services
-
-      
-      
-      ------------> gradle pPN
-
-      > Task :printProjectName
-      couponapp
-
-      > Task :data:printProjectName
-      data
-
-      > Task :integration:printProjectName
-      integration
-
-      > Task :services:printProjectName
-      services
-
-      > Task :web:printProjectName
-      web
-    */
-    doLast {
-      println project.name
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(21)
     }
+  }
+
+  tasks.named('test') {
+    useJUnitPlatform()
+  }
+}
+
+// Setting up dependencies for all sub-projects
+project(':web') {
+  dependencies {
+    implementation project(':services')
+  }
+}
+
+project(':services') {
+  dependencies {
+    implementation project(':data')
+  }
+}
+
+project(':data') {
+  dependencies {
+    implementation project(':integration')
   }
 }
